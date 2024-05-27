@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: dlserver
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dlserver
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: dlserver
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: dlserver
+        image: arash16/dlserver
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: dlserver
+spec:
+  type: ClusterIP
+  ports:
+  - name: tcp-80
+    protocol: TCP
+    port: 3000
+  selector:
+    app.kubernetes.io/name: dlserver
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: default
+  name: dlserver
+spec:
+  rules:
+  - host: dlserver.codeprayer.com
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: dlserver
+            port:
+              number: 3000
