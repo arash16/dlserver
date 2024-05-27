@@ -18,7 +18,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: dlserver
-        image: arash16/dlserver
+        image: arash16/dlserver:main
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
