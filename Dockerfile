@@ -4,8 +4,8 @@ ENV TZ=Asia/Tehran
 
 RUN apk add aria2 && \
   cd /tmp && \
-  sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && \
-  sudo chmod a+rx /usr/bin/youtube-dl
+  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && \
+  chmod a+rx /usr/bin/youtube-dl
 
 WORKDIR /app
 COPY package.json yarn.lock ./
