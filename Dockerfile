@@ -2,16 +2,10 @@ FROM --platform=linux/amd64 node:20.13.1-alpine3.19 as builder
 
 ENV TZ=Asia/Tehran
 
-RUN apk add curl wget gcc cmake make alpine-sdk
-COPY install-tools.sh /tmp/install-tools.sh
-RUN /tmp/install-tools.sh
-
-# ================================================================
-
-FROM --platform=linux/amd64 node:20.13.1-alpine3.19 as runner
-
-COPY --from=builder /usr/local/bin/youtube-dl /usr/bin/youtube-dl
-COPY --from=builder /usr/bin/aria2c /usr/bin/aria2c
+RUN apk add aria2 && \
+  cd /tmp && \
+  sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && \
+  sudo chmod a+rx /usr/bin/youtube-dl
 
 WORKDIR /app
 COPY package.json yarn.lock ./
