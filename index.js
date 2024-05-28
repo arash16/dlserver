@@ -2,22 +2,18 @@ const { join } = require('path');
 const { exec } = require('child_process');
 const express = require('express');
 const serveIndex = require('serve-index');
+const morgan = require('morgan')
 
 const app = express();
+app.use(morgan('dev'));
+
+
 const publicDir = join(__dirname, 'public');
 
 app.use('/', serveIndex(publicDir));
-app.get('/dl', (req, res) => {
-  const url = req.originalUrl.replace(/^[^?]*\?/, '');
-  const proc = exec('aria2c ' + url, { cwd: publicDir });
-  proc.stdout.pipe(res);
-  proc.stderr.pipe(res);
-  proc.stdout.on('end', () => res.end());
-});
-
-app.get('/yt', (req, res) => {
-  const url = req.originalUrl.replace(/^[^?]*\?/, '');
-  const proc = exec('youtube-dl ' + url, { cwd: publicDir });
+app.get('/cmd', (req, res) => {
+  const cmd = decodeURIComponent(req.originalUrl.replace(/^[^?]*\?/, ''));
+  const proc = exec(cmd, { cwd: publicDir });
   proc.stdout.pipe(res);
   proc.stderr.pipe(res);
   proc.stdout.on('end', () => res.end());
@@ -25,6 +21,4 @@ app.get('/yt', (req, res) => {
 
 app.use(express.static(publicDir));
 
-app.listen(3000, () => {
-  console.log('listening');
-});
+app.listen(3000, () => console.log('listening on port 3000'));
