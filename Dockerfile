@@ -7,7 +7,8 @@ RUN apt update -y && \
   cd /tmp && \
   curl -L https://github.com/ytdl-org/ytdl-nightly/releases/download/2024.05.31/youtube-dl -o /usr/bin/youtube-dl && \
   chmod a+rx /usr/bin/youtube-dl && \
-  ln -s /usr/bin/python3 /usr/bin/python
+  ln -s /usr/bin/python3 /usr/bin/python && \
+  curl -fsSL git.io/wgcf.sh | bash && mkdir -p /wgcf
 
 WORKDIR /app
 COPY package.json yarn.lock ./
