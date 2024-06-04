@@ -14,4 +14,4 @@ COPY package.json yarn.lock ./
 RUN yarn
 
 COPY . .
-ENTRYPOINT ["node", "index"]
+ENTRYPOINT ["entry.sh"]
