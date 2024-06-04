@@ -14,4 +14,4 @@ COPY package.json yarn.lock ./
 RUN yarn
 
 COPY . .
-ENTRYPOINT ["entry.sh"]
+ENTRYPOINT ["/app/entry.sh"]
