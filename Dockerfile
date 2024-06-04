@@ -11,7 +11,7 @@ RUN apt update -y && \
   chmod a+rx /usr/bin/youtube-dl && \
   ln -s /usr/bin/python3 /usr/bin/python && \
   curl -fsSL git.io/wgcf.sh | bash && mkdir -p /wgcf && \
-  ln -s /usr/bin/resolvectl /usr/local/bin/resolvconf
+  ln -s /usr/bin/resolvectl /usr/bin/resolvconf
 
 WORKDIR /app
 COPY package.json yarn.lock ./
