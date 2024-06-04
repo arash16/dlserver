@@ -12,7 +12,7 @@ RUN apk add \
 
 RUN set -ex \
   && apk add --no-cache --virtual .build-deps ca-certificates openssl \
-  && wget -qO- "https://github.com/KrzysztofLipiec/phantomized/archive/refs/tags/release1.tar.gz" | tar xz -C / \
+  && curl -Ls "https://github.com/arjonkman/phantomized/archive/refs/tags/latest.tar.gz" | tar xz -C \
   && yarn global add phantomjs \
   && apk del .build-deps
 
