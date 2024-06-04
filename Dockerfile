@@ -10,9 +10,15 @@ RUN apk add \
   chmod a+rx /usr/bin/youtube-dl && \
   curl -fsSL git.io/wgcf.sh | bash && mkdir -p /wgcf
 
+RUN set -ex \
+  && apk add --no-cache --virtual .build-deps ca-certificates openssl \
+  && wget -qO- "https://github.com/dustinblackman/phantomized/releases/download/2.1.1/dockerized-phantomjs.tar.gz" | tar xz -C / \
+  && yarn global add phantomjs \
+  && apk del .build-deps
+
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn
+RUN yarn && yarn global add phantomjs-prebuilt 
 
 COPY . .
 ENTRYPOINT ["/app/entry.sh"]
