@@ -10,11 +10,14 @@ RUN apk add \
   chmod a+rx /usr/bin/youtube-dl && \
   curl -fsSL git.io/wgcf.sh | bash && mkdir -p /wgcf
 
-RUN set -ex \
-  && apk add --no-cache --virtual .build-deps ca-certificates openssl \
-  && curl -Ls "https://github.com/arjonkman/phantomized/archive/refs/tags/latest.tar.gz" | tar xz -C / \
-  && yarn global add phantomjs \
-  && apk del .build-deps
+RUN cd /tmp && curl -Ls https://github.com/arjonkman/phantomized/archive/refs/tags/latest.tar.gz | tar xz && \
+    cp -R lib lib64 / && \
+    cp -R usr/lib/x86_64-linux-gnu /usr/lib && \
+    cp -R usr/share /usr/share && \
+    cp -R etc/fonts /etc && \
+    curl -k -Ls https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 | tar -jxf - && \
+    cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs && \
+    rm -fR phantomjs-2.1.1-linux-x86_64
 
 WORKDIR /app
 COPY package.json yarn.lock ./
