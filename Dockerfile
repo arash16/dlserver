@@ -3,6 +3,7 @@ FROM --platform=linux/amd64 node:lts-slim
 ENV TZ=Asia/Tehran
 
 RUN apt update -y && \
+  echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-selections \
   apt install \
     aria2 curl wget python3 \
     wireguard iproute2 net-tools iptables resolvconf -y && \
