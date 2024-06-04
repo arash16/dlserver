@@ -1,16 +1,14 @@
-FROM --platform=linux/amd64 node:lts-slim
+FROM --platform=linux/amd64 node:20.13.1-alpine3.19
 
 ENV TZ=Asia/Tehran
 
 RUN apt update -y && \
-  echo "resolvconf resolvconf/linkify-resolvconf boolean false" | debconf-set-selections && \
   apt install \
     aria2 curl wget python3 \
-    wireguard iproute2 net-tools iptables resolvconf -y && \
+    wireguard iproute2 net-tools iptables ca-certificates -y && \
   cd /tmp && \
   curl -L https://github.com/ytdl-org/ytdl-nightly/releases/download/2024.05.31/youtube-dl -o /usr/bin/youtube-dl && \
   chmod a+rx /usr/bin/youtube-dl && \
-  ln -s /usr/bin/python3 /usr/bin/python && \
   curl -fsSL git.io/wgcf.sh | bash && mkdir -p /wgcf
 
 WORKDIR /app
