@@ -4,7 +4,7 @@ ENV TZ=Asia/Tehran
 
 RUN apk add \
     aria2 curl wget python3 \
-    wireguard iproute2 net-tools iptables ca-certificates && \
+    wireguard-tools openresolv iproute2 net-tools iptables ca-certificates && \
   cd /tmp && \
   curl -L https://github.com/ytdl-org/ytdl-nightly/releases/download/2024.05.31/youtube-dl -o /usr/bin/youtube-dl && \
   chmod a+rx /usr/bin/youtube-dl && \
