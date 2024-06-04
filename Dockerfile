@@ -2,7 +2,7 @@ FROM --platform=linux/amd64 node:20.13.1-alpine3.19
 
 ENV TZ=Asia/Tehran
 
-RUN akd add \
+RUN apk add \
     aria2 curl wget python3 \
     wireguard iproute2 net-tools iptables ca-certificates && \
   cd /tmp && \
